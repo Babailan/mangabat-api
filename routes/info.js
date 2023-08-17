@@ -1,25 +1,32 @@
 const axios = require("axios").default;
 const cheerio = require("cheerio");
-const getInfo = require("../cheerio/info");
-const { pipe_data } = require("../libs");
+const getInfo = require("../libs/cheerio/info");
 
 async function info(req, res) {
   try {
     const { id } = req.query;
 
+    // Check if the 'id' query parameter is provided
     if (id == undefined) {
-      throw Error("please provide id.");
+      throw new Error("Please provide an ID.");
     }
+
+    // Fetch the manga page using Axios
     const result = await axios.get(
       "https://readmangabat.com/read-" + id.toString()
     );
+
+    // Load the fetched page content with Cheerio
     const parseInfo = cheerio.load(result.data);
-    const data = getInfo(parseInfo);
+
+    // Extract manga information using the 'getInfo' function
+    const data = getInfo(parseInfo, id);
+
+    // Send the extracted manga information as JSON response
     res.json(data).end();
   } catch (err) {
-    res.status(500);
-    res.send(err.message);
-    res.end();
+    // Handle errors and send an appropriate response
+    res.status(500).send(err.message);
   }
 }
 
