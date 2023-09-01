@@ -1,19 +1,16 @@
 import "../global.css";
-import { Poppins } from "next/font/google";
+import { Noto_Sans_Mono } from "next/font/google";
 
-const Poppins_Font = Poppins({
+const Font = Noto_Sans_Mono({
   subsets: ["latin"],
   weight: ["400", "600", "700"],
 });
 
 export default function RootLayout(props: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`dark ${Poppins_Font.className}`}>
-      <head>
-        <title></title>
-      </head>
+    <html lang="en" className={` ${Font.className}`}>
       <body>
-        <main className=" dark:bg-stone-950 dark:text-white h-screen">
+        <main className="dark:bg-stone-900 dark:text-white min-h-screen p-5">
           {props.children}
         </main>
       </body>

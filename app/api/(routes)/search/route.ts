@@ -2,6 +2,8 @@ import { load } from "cheerio";
 import { NextResponse } from "next/server";
 import qs from "querystring";
 import { SearchItems } from "./_types/SearchItem";
+import { getServerByUrl } from "utils/hostname";
+import { split_last } from "utils/split";
 
 export async function GET(request: Request) {
   try {
@@ -14,6 +16,8 @@ export async function GET(request: Request) {
     const data = qs.stringify({
       searchword: q, // Prepare data for the search query
     });
+
+    console.log(data);
 
     const getData = await fetch(`${process.env.manga_url}/getstorysearchjson`, {
       method: "POST",
@@ -29,10 +33,19 @@ export async function GET(request: Request) {
     }
 
     const jsonData = (await getData.json()) as { searchlist: SearchItems[] };
-    const cleanedData = jsonData.searchlist.map((item) => ({
-      ...item,
-      name: load(item.name).text(),
-    }));
+    const cleanedData = jsonData.searchlist.map(
+      ({ name, url_story, lastchapter, image, author }) => ({
+        title: load(name).text(),
+        server: getServerByUrl(url_story),
+        latest_chapter: lastchapter,
+        image: image,
+        author: load(author.toString())
+          .text()
+          .split(",")
+          .map((v) => v.trim()),
+        id: split_last(url_story, "-"),
+      })
+    );
 
     return NextResponse.json(cleanedData);
   } catch (err) {

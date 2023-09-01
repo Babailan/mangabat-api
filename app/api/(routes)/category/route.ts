@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import filter from "./_libs/filter";
-import manga_list from "utils/manga_list";
+import manga_list_categories from "utils/manga_list_categories";
 
 export async function GET(req: Request) {
   try {
@@ -20,11 +20,11 @@ export async function GET(req: Request) {
 
     // Apply filtering based on search parameters
     const filteredURL = filter(manga_url, searchParams);
-
+    console.log(filteredURL);
     const rawHtml = await (await fetch(filteredURL)).text();
-    manga_list(rawHtml);
+    const extractData = manga_list_categories(rawHtml);
     // Return a JSON response with a sample data
-    return NextResponse.json({ name: "ronnel" });
+    return NextResponse.json(extractData);
   } catch (err) {
     // Return an error response if an exception occurs
     return NextResponse.json({ message: err.message }, { status: 500 });

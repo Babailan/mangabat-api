@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "rm ./.next -rf && next dev",
-    "build": "rm ./.next -rf && next build",
+    "dev": "next dev",
+    "build": "rm ./.next -rf &&next build",
     "start": "next start",
-    "lint": "rm ./.next -rf && next lint"
+    "lint": "next lint"
   },
   "author": "",
   "license": "ISC",

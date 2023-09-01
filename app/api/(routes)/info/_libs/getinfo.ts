@@ -43,11 +43,10 @@ function getInfo(cheerio_data: CheerioAPI) {
       .eq(3)
       .text()
       .split("-")
-      .map((v) => v.trim()),
+      .map((v) => v.trim().toLowerCase().split(" ").join("-")),
     updatedAt: mangaRightInfo.eq(0).text(),
     view: mangaRightInfo.eq(1).text(),
   };
-
   return { img, chapters, title, summary, ...mangaInfo };
 }
 

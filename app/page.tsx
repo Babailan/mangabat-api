@@ -1,7 +1,16 @@
+export const metadata = {
+  title: "MangaVerse",
+};
+
 export default function Page() {
   return (
     <div>
-      <p className="text-[5em] sm:text-[10em] font-medium">LWAEODKAOPW</p>
+      <h1 className="hover:bg-slate-500">Ronnel Babailan</h1>
+      <p className="">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis nihil
+        cumque dicta! Nulla porro unde voluptatem quaerat ipsa natus corrupti
+        iusto dolore aperiam eius dolor, labore aut. Numquam, enim placeat.
+      </p>
     </div>
   );
 }
